@@ -1,0 +1,7 @@
+.bg-danger{
+    color:white;
+    text-align: center;
+}
+#flexCheckDefault:focus {
+    box-shadow:none !important;
+}

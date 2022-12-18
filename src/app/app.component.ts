@@ -7,21 +7,27 @@ import { Item, Model } from './model';
 })
 export class AppComponent {
   title = 'todo-recap';
+  inputtask = ""
   model = new Model()
-  displayAll = true;
+  displayAll = false;
   username = this.model.username
-  addItem(value:string){
-    if (value.trim()){
+  addItem(){
+    if (this.inputtask.trim()){
       // console.log(this.model.items.forEach())
-      return this.model.items.push(new Item(value, false));
+      this.model.items.push(new Item(this.inputtask, false));
+      this.inputtask = ""
       
     }
-    return this.model.items
+    this.model.items
+    this.inputtask = ""
   }
   getItems(){
     if(!this.displayAll){
       return this.model.items.filter(item => !item.completed)
     }
     return this.model.items
+  }
+  displayCount(){
+    return this.model.items.filter(item => item.completed).length
   }
 }

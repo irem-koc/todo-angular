@@ -1,13 +1,10 @@
 export class Model{
     username:any;
-    items;
+    items: Item[];
     constructor(){
         
         this.items = [
-            new Item("yemek ye", true),
-            new Item("örgü ör", false),
-            new Item("yemek ye", false),
-            new Item("örgü ör", true),
+            
         ];
         
     }

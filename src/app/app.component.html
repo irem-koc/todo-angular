@@ -3,38 +3,109 @@
     <div class="col-5 m-auto">
       <h1 class="bg-danger">Todo App</h1>
       <div class="input-group my-3">
-        <input (keyup.enter)="addItem(inputTask.value); inputTask.value =''" type="text" #inputTask class="form-control" placeholder="I should do that...." aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button (click)="addItem(inputTask.value); inputTask.value =''" class="btn btn-danger" type="button" id="button-addon2">Add Task</button>
+        <input
+          (keyup.enter)="addItem()"
+          type="text"
+          [(ngModel)] = "inputtask"
+          class="form-control"
+          placeholder="I should do that...."
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+        />
+        <button
+          [class.disabled]="inputtask.length == 0"
+          (click)="addItem()"
+          class="btn btn-danger"
+          type="button"
+          id="button-addon2"
+        >
+          Add Task
+        </button>
       </div>
       <div class="form-check mb-3">
-        <input [(ngModel)]="displayAll" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <input
+          [(ngModel)]="displayAll"
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
         <label class="form-check-label" for="flexCheckDefault">
           Display All
         </label>
       </div>
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Index</th>
-            <th>Description</th>
-            <th></th>
-            <th>Completed</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of getItems(); let i =index">
-            <td>{{i}} </td>
-            <td>{{item.description}}</td>
-            <td>
-              <div class="form-check">
-                <input [(ngModel)]="item.completed" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                
-              </div>
-            </td>
-            <td>{{item.completed}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <ng-template #itemsTable>
+        <table
+          class="table table-bordered table-striped"
+          *ngIf="getItems().length > 0"
+        >
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Description</th>
+              <th></th>
+              <th>Completed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let item of getItems(); let i = index"
+              [class.bg-success]="item.completed"
+            >
+              <td>{{ i+1 }}</td>
+              <td>{{ item.description }}</td>
+              <td>
+                <div class="form-check">
+                  <input
+                    [(ngModel)]="item.completed"
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckDefault"
+                  />
+                </div>
+              </td>
+              <td>
+                {{ item.completed }}
+                <!-- 
+                  ifelse blok
+                  <div *ngIf="item.completed; else notemplate">
+                  Yes
+                </div>
+                <ng-template #notemplate>
+                  No
+                </ng-template> -->
+                <!-- ifthen blok -->
+                <!-- <div *ngIf="item.completed; then notemplate">
+                  Burası çalışmayacak
+                </div>
+                <ng-template #notemplate>
+                  No
+                </ng-template> -->
+                <!-- if then else bloks -->
+                <!-- <div *ngIf="item.completed; then yesemplate else notemplate">
+                  Burası çalışmayacak
+                </div>
+                <ng-template #notemplate>
+                  No
+                </ng-template> 
+                <ng-template #yesemplate>
+                  Yes
+                </ng-template>  -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-template>
+      <div class="my-2">{{ displayCount() }} görev tamamlandı.</div>
+      
+      <div
+        class="alert alert-success"
+        *ngIf="getItems().length == 0; else itemsTable"
+      >
+        Tüm görevler tamamlandı !!
+      </div>
+      <div class="my-2">Total task number: {{ getItems().length }} </div>
     </div>
   </div>
 </div>
